@@ -2,6 +2,7 @@ Soccer Injury Predictor
 ========================================================
 author: Daniel Dunn
 date: December 14, 2014
+autosize: TRUE
 transition: rotate
 
 Injuries & Professional Soccer
@@ -33,14 +34,8 @@ fit1 <- lm(Days.Out~.,data=d2)
 
 Example:  injured in training, day 50
 ========================================================
-```{r, echo=FALSE}
-Season <- c(7,4,39,11,13,5,115,2,2,5,7,21,187,13,38,4,2,13,1,1,4,2,17,8,15,97,89,36,145,19,11,13,5,1,14,13,153,59,4,19,43,21,4,22,6,53,9,6,6,4,11,5,28,22,396,30,8,2,2,23,65,51,82,8,32,5,10,22,13,20,59,9,1,3,2,2,13,85,3,21,191,282,18,2,18,5,4,60,11,13,46,5,4,2)
-```
+<iframe width=2000 height=600 src="https://ddunn801.shinyapps.io/DevDataProds/"></iframe>
 
-```{r, echo=TRUE}
-hist(Season,breaks=60,xlab="Days Out",col="blue",main=("Histogram of Injuries"))
-pred1 <- round(43.00103 + -11.72829*1 + -0.05837*50,0);abline(v=pred1,col="red",lwd=5)
-```
 
 Use Case
 ========================================================
