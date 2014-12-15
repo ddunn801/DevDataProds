@@ -4,26 +4,46 @@ author: Daniel Dunn
 date: December 14, 2014
 transition: rotate
 
-First Slide
+Injuries & Professional Soccer
 ========================================================
 
-For more details on authoring R presentations click the
-**Help** button on the toolbar.
+Professional soccer teams are often very susceptible to player injuries.
+A team faces not only the loss of the player's services but also the uncertainty of how long the player will be unavailable.
 
-- Bullet 1
-- Bullet 2
-- Bullet 3
+This application helps predict how many days an injured player will be out, given two inputs:
+- Did the injury occur during training or a match?
+- How many days into the season did the player get injured?
 
-Slide With Code
+Data was obtained on December 14, 2014 from www.arsenalreport.com/injuryroom
+
+How Model Was Built
 ========================================================
 
-```{r}
-summary(cars)
+The dataset was loaded into a local CSV file for analysis. Below are the steps to fit a linear model:
+
+```{r, eval=FALSE}
+d1 <- read.csv(file="injuries.csv",header=TRUE)
+d1$Injury.Date <- as.Date(d1$Injury.Date,format="%m/%d/%Y")
+day1 <- as.Date("8/17/2013",format="%m/%d/%Y")
+d1 <- d1[d1$Injury.Date>=day1,]
+d1$Season.Day <- as.integer(d1$Injury.Date - day1)
+d2 <- d1[d1$Injury.Type!="Unknown",c(4:5,7)]
+fit1 <- lm(Days.Out~.,data=d2)
 ```
 
-Slide With Plot
+Example:  injured in training, day 50
 ========================================================
-
 ```{r, echo=FALSE}
-plot(cars)
+Season <- c(7,4,39,11,13,5,115,2,2,5,7,21,187,13,38,4,2,13,1,1,4,2,17,8,15,97,89,36,145,19,11,13,5,1,14,13,153,59,4,19,43,21,4,22,6,53,9,6,6,4,11,5,28,22,396,30,8,2,2,23,65,51,82,8,32,5,10,22,13,20,59,9,1,3,2,2,13,85,3,21,191,282,18,2,18,5,4,60,11,13,46,5,4,2)
 ```
+
+```{r, echo=TRUE}
+hist(Season,breaks=60,xlab="Days Out",col="blue",main=("Histogram of Injuries"))
+pred1 <- round(43.00103 + -11.72829*1 + -0.05837*50,0);abline(v=pred1,col="red",lwd=5)
+```
+
+Use Case
+========================================================
+This application is merely a proof of concept, not a perfected product. Next step would be to improve the predictive model to minimize error. Having this application structure already built should streamline the process of implementing an improved model.
+
+As the error rate improves, the trainer and manager can have a good first estimate of how long a player may be unavailable.
